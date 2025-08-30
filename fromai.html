@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persian Poetry Background</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            animation: shimmer 15s ease-in-out infinite;
+        }
+        
+        .poem-container {
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 1;
+            position: relative;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .poem-line {
+            font-size: 2.2rem;
+            line-height: 1.8;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+            position: relative;
+        }
+        
+        .poem-line:nth-child(1) { animation-delay: 0.5s; }
+        .poem-line:nth-child(2) { animation-delay: 1s; }
+        .poem-line:nth-child(3) { animation-delay: 1.5s; }
+        .poem-line:nth-child(4) { animation-delay: 2s; }
+        
+        .poem-line::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transform: translateX(-50%);
+            animation: lineGrow 2s ease-out forwards;
+            animation-delay: calc(var(--delay) + 0.5s);
+        }
+        
+        .poem-line:nth-child(1) { --delay: 0.5s; }
+        .poem-line:nth-child(2) { --delay: 1s; }
+        .poem-line:nth-child(3) { --delay: 1.5s; }
+        .poem-line:nth-child(4) { --delay: 2s; }
+        
+        .decorative-border {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            pointer-events: none;
+        }
+        
+        .decorative-border::before,
+        .decorative-border::after {
+            content: '❋';
+            position: absolute;
+            color: rgba(255,255,255,0.6);
+            font-size: 1.5rem;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        .decorative-border::before {
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .decorative-border::after {
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes lineGrow {
+            to {
+                width: 60%;
+            }
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+        
+        @media (max-width: 768px) {
+            .poem-line {
+                font-size: 1.6rem;
+            }
+            .poem-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poem-container">
+        <div class="decorative-border"></div>
+        <div class="poem-line">هنگام تنگدستی در عیش کوش و مستی</div>
+        <div class="poem-line">کاین کیمیای هستی قارون کند گدا را</div>
+        <div class="poem-line">سرکش مشو که چون شمع از غیرتت بسوزد</div>
+        <div class="poem-line">دلبر که در کف او موم است سنگ خارا</div>
+    </div>
+</body>
+</html>
