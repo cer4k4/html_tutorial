@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>N×N Chessboard</title>
+<style>
+  .board {
+    --n: 8;                    /* default size */
+    --size: 50px;              /* square size */
+    display: grid;
+    grid-template-columns: repeat(var(--n), var(--size));
+    width: calc(var(--n) * var(--size));
+    border: 4px solid #222;
+    margin: 20px 0;
+  }
+  .square {
+    width: var(--size);
+    height: var(--size);
+    display: grid;
+    place-items: center;
+    font-size: calc(var(--size) * 0.8);
+    user-select: none;
+  }
+  .light { background:#f0d9b5; }
+  .dark  { background:#b58863; color:#111; }
+  .controls { display:flex; gap:10px; align-items:center; }
+  input[type="number"] { width: 6rem; }
+</style>
+</head>
+<body>
+  <div class="controls">
+    <label>Board size (N): <input id="n" type="number" value="8" min="1" /></label>
+    <button id="build">Build</button>
+  </div>
+
+  <div id="board" class="board"></div>
+
+<script>
+  const boardEl = document.getElementById('board');
+  const nInput  = document.getElementById('n');
+  const buildBtn= document.getElementById('build');
+
+  function buildBoard(n, queens=[]) {
+    boardEl.style.setProperty('--n', n);
+    boardEl.innerHTML = '';
+    for (let r = 0; r < n; r++) {
+      for (let c = 0; c < n; c++) {
+        const sq = document.createElement('div');
+        sq.className = 'square ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
+        // draw a queen if (r,c) in queens array
+        if (queens.some(([qr, qc]) => qr === r && qc === c)) {
+          sq.textContent = '♛';
+        }
+        boardEl.appendChild(sq);
+      }
+    }
+  }
+
+  buildBtn.addEventListener('click', () => {
+    const n = Math.max(1, Number(nInput.value) || 8);
+    // Example queens: diagonal; replace with your backend result
+    const queens = Array.from({length:n}, (_,i)=>[i,i]);
+    buildBoard(n, queens);
+  });
+
+  // initial
+  buildBoard(8);
+</script>
+</body>
+</html>

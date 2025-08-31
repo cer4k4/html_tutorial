@@ -6,15 +6,52 @@
 		<title>	Chess Game </title>
 	</head>
 	<body>
-		<h2> N Queen Chess <h2></h2>
+		<div id="h2ka"> N Queen Chess </div>
 		<div class="background">
+			<div class="controls">
+				<label>Board size (N): <input id="n" type="number" value="8" min="1" /></label>
+    			<button id="build">Build</button>
+			</div>
 		</div>
 		<div>
-			<form>
-				<label for="nqueen">Number Of Queen:</label><br>
-				<input type="number" id="nqueen" name="nqueen"> </input>
-				<input type="submit" value="Submit">
-			</form>	
+			<input type="number" id="nqueen-number" name="nqueen-number"> </input><br>
+			<button id="btn1"> Click To Send</button><br>
+			<script>
+				const btn = document.getElementById("btn1");	
+				btn.addEventListener("click",function(){
+					const inputValue = document.getElementById("nqueen-number").value;
+					SendToBackend(inputValue)
+				});
+				async function SendToBackend(nqueenNumber){
+				    const xhr = new XMLHttpRequest();
+				    xhr.open("POST", "http://localhost:8000/solve");
+				    xhr.setRequestHeader("Content-Type", "application/json");
+				    const body = JSON.stringify({
+				        number: Number(nqueenNumber)
+				    });
+				    xhr.onload = () => {
+						ClearElement("h2ka")
+				        if (xhr.readyState == 4 && xhr.status == 200) {
+							res = JSON.parse(xhr.responseText)
+							list = res["solution"]
+							const container = document.getElementById("h2ka");
+							for (x in list){
+								const nodeItem = document.createElement("span")
+								nodeItem.innerHTML = list[x]
+								container.appendChild(nodeItem)
+							}
+				        } else {
+				            console.log(`Error: ${xhr.status}`);
+				        }
+				    };
+				    xhr.send(body);
+				}
+				function ClearElement(elementID){
+					document.getElementById(elementID).innerHTML = "";
+				}
+				ll = document.documentElement.getElementsByClassName("background");
+				console.log(ll)
+			</script>
 		</div>
 	</body>
 </html>
