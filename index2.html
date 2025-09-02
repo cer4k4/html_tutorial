@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="icon" type="image/x-icon" href="/home/aka/Downloads/chess.webp">
+<title>N×N Chessboard</title>
+<style>  
+ .board {
+    --n: 4;
+    --size: 50px;
+    display: grid;
+    grid-template-columns: repeat(var(--n), var(--size));
+    width: calc(var(--n) * var(--size));
+    border: 4px solid #0f00e4;
+    opacity: 0.7;
+  }
+
+  .square {
+    width: var(--size);
+    height: var(--size);
+    display: grid;
+    place-items: center;
+    font-size: calc(var(--size) * 0.8);
+    user-select: none;      
+  }
+  .dfatherbody {
+    --n: var(--n);  
+    --size:50px;
+    width: calc(var(--n) * var(--size));
+    background-image: url("./images/back.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: normal;
+  }
+  .dbody {
+
+  }
+  .Akls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .light { background:#ffffff; }
+  .dark  { background:#757575; color:#803c3c; }
+  .controls { 
+    display:flex;
+    justify-content: center;
+  }
+  input[type="number"] { width: 6rem; }
+  .ddd {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    margin: 10px;
+  }
+  button {
+    width: 150px;
+    height: 30px;
+  }
+</style>
+</head>
+<body>
+    <div class="controls">
+      <label>Board size (N):
+        <input id="n" type="number" value="4" min="1" />
+      </label>
+    </div>
+    <div class="ddd">
+      <button id="build">Build</button>
+    </div>
+  <div class="Akls">
+    <div id ="dfatherbody" class="dfatherbody">
+      <div class="dbody">
+        <div id="board" class="board"></div>
+      </div>
+    </div>
+  <div>
+<script>
+  const boardEl = document.getElementById('board');
+  const nInput  = document.getElementById('n');
+  const buildBtn= document.getElementById('build');
+  const dfatherbody = document.getElementById('dfatherbody')
+  function buildBoard(n) {
+    boardEl.style.setProperty('--n', n);
+    dfatherbody.style.setProperty('--n', n)
+    boardEl.innerHTML = '';
+    for (let r = 0; r < n; r++) {
+      for (let c = 0; c < n; c++) {
+        const sq = document.createElement('div');
+        sq.className = 'square ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
+        boardEl.appendChild(sq);
+      }
+    }
+  }
+
+  buildBtn.addEventListener('click', () => {
+    const n = Number(nInput.value);
+    buildBoard(n);
+  });
+  buildBoard(4);
+</script>
+</body>
+</html>

@@ -21,50 +21,43 @@
     font-size: calc(var(--size) * 0.8);
     user-select: none;
   }
-  .light { background:#f0d9b5; }
-  .dark  { background:#b58863; color:#111; }
+  .light { background:#eee4d4; }
+  .dark  { background:#b58863; color:#000000; }
   .controls { display:flex; gap:10px; align-items:center; }
-  input[type="number"] { width: 6rem; }
+/* input[type="number"] { width: 6rem; } */
 </style>
 </head>
 <body>
+  <div>
   <div class="controls">
-    <label>Board size (N): <input id="n" type="number" value="8" min="1" /></label>
+    <label>Board size (N):
+      <input id="n" type="number" value="4" min="1" />
+    </label>
     <button id="build">Build</button>
   </div>
-
   <div id="board" class="board"></div>
-
 <script>
   const boardEl = document.getElementById('board');
   const nInput  = document.getElementById('n');
   const buildBtn= document.getElementById('build');
 
-  function buildBoard(n, queens=[]) {
+  function buildBoard(n) {
     boardEl.style.setProperty('--n', n);
     boardEl.innerHTML = '';
     for (let r = 0; r < n; r++) {
       for (let c = 0; c < n; c++) {
         const sq = document.createElement('div');
         sq.className = 'square ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
-        // draw a queen if (r,c) in queens array
-        if (queens.some(([qr, qc]) => qr === r && qc === c)) {
-          sq.textContent = '♛';
-        }
         boardEl.appendChild(sq);
       }
     }
   }
 
   buildBtn.addEventListener('click', () => {
-    const n = Math.max(1, Number(nInput.value) || 8);
-    // Example queens: diagonal; replace with your backend result
-    const queens = Array.from({length:n}, (_,i)=>[i,i]);
-    buildBoard(n, queens);
+    const n = Number(nInput.value);
+    buildBoard(n);
   });
-
-  // initial
-  buildBoard(8);
+  buildBoard(4);
 </script>
 </body>
 </html>
