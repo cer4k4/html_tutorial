@@ -28,7 +28,7 @@
     --n: var(--n);  
     --size:50px;
     width: calc(var(--n) * var(--size));
-    background-image: url("./images/back.jpg");
+    background-image: url("./images/ghazal-5-2.jpg");
     background-position: center;
     background-repeat: no-repeat;
     animation: normal;
@@ -84,19 +84,28 @@
   const nInput  = document.getElementById('n');
   const buildBtn= document.getElementById('build');
   const dfatherbody = document.getElementById('dfatherbody')
-  function buildBoard(n) {
+function buildBoard(n) {
+    // محاسبه اندازه خانه‌ها بر اساس اندازه پنجره
+    let maxWidth = window.innerWidth * 0.8;   // 80٪ از عرض صفحه
+    let maxHeight = window.innerHeight * 0.8; // 80٪ از ارتفاع صفحه
+    let cellSize = Math.floor(Math.min(maxWidth / n, maxHeight / n));
+
+    // اعمال به CSS
     boardEl.style.setProperty('--n', n);
-    dfatherbody.style.setProperty('--n', n)
+    boardEl.style.setProperty('--size', `${cellSize}px`);
+    dfatherbody.style.setProperty('--n', n);
+    dfatherbody.style.setProperty('--size', `${cellSize}px`);
+
     boardEl.innerHTML = '';
     for (let r = 0; r < n; r++) {
-      for (let c = 0; c < n; c++) {
-        const sq = document.createElement('div');
-        sq.id = String(r+1)+"*"+String(c+1)
-        sq.className = 'square ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
-        boardEl.appendChild(sq);
-      }
+        for (let c = 0; c < n; c++) {
+            const sq = document.createElement('div');
+            sq.id = `${r+1}*${c+1}`;
+            sq.className = 'square ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
+            boardEl.appendChild(sq);
+        }
     }
-  }
+}
   buildBtn.addEventListener('click', () => {
     const n = Number(nInput.value);
     buildBoard(n);
