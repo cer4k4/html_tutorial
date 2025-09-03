@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <link rel="icon" type="image/x-icon" href="/home/aka/Downloads/chess.webp">
-<title>N×N Chessboard</title>
+<title>N×N Queen</title>
 <style>  
  .board {
     --n: 4;
@@ -23,6 +23,7 @@
     font-size: calc(var(--size) * 0.8);
     user-select: none;      
   }
+
   .dfatherbody {
     --n: var(--n);  
     --size:50px;
@@ -32,20 +33,21 @@
     background-repeat: no-repeat;
     animation: normal;
   }
-  .dbody {
 
-  }
+  
   .Akls {
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   .light { background:#ffffff; }
   .dark  { background:#757575; color:#803c3c; }
   .controls { 
     display:flex;
     justify-content: center;
   }
+
   input[type="number"] { width: 6rem; }
   .ddd {
     display: flex;
@@ -53,10 +55,12 @@
     justify-content: center;
     margin: 10px;
   }
+
   button {
     width: 150px;
     height: 30px;
   }
+
 </style>
 </head>
 <body>
@@ -87,16 +91,54 @@
     for (let r = 0; r < n; r++) {
       for (let c = 0; c < n; c++) {
         const sq = document.createElement('div');
+        sq.id = String(r+1)+"*"+String(c+1)
         sq.className = 'square ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
         boardEl.appendChild(sq);
       }
     }
   }
-
   buildBtn.addEventListener('click', () => {
     const n = Number(nInput.value);
     buildBoard(n);
+    SendToBackend(n)
   });
+async function SendToBackend(nqueenNumber){
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8000/solve");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    const body = JSON.stringify({
+        number: Number(nqueenNumber)
+    });
+    xhr.onload = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            res = JSON.parse(xhr.responseText);
+            list = res["solution"];
+            for (x in list){
+                for (t in list[x]){
+                    const cellId = String(Number(x)+1)+"*"+String(Number(t)+1);
+                    const cell = document.getElementById(cellId);
+                    cell.innerHTML = list[x][t];
+                    if (list[x][t] === "♛" || list[x][t] === "Q") {
+                        cell.style.backgroundColor = "lightgreen";
+                        cell.style.color = "red";
+                        cell.style.fontWeight = "bold";
+                    }
+                }
+            }
+        } else {
+            console.log(`Error: ${xhr.status}`);
+        }
+    };
+    xhr.send(body);
+}
+
+  function ClearElement(elementID){
+		document.getElementById(elementID).innerHTML = "";
+	}
+  const container = document.getElementById("h2ka");
+	const newDiv = document.createElement("s");
+	newDiv.className = 'sd';
+	newDiv.style.setProperty('--n',5);
   buildBoard(4);
 </script>
 </body>
