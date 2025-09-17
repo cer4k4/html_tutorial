@@ -4,15 +4,29 @@
 <meta charset="utf-8" />
 <link rel="icon" type="image/x-icon" href="/home/aka/Downloads/chess.webp">
 <title>N×N Queen</title>
-<style>  
+<style>
+
+  .body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1a1a1a, #000);
+    font-family: sans-serif;
+    color: #fff;
+  }
+
  .board {
     --n: 4;
     --size: 50px;
     display: grid;
     grid-template-columns: repeat(var(--n), var(--size));
     width: calc(var(--n) * var(--size));
-    border: 4px solid #0f00e4;
-    opacity: 0.7;
+    border: 4px solid #00ffe4;
+    box-shadow: 0 0 40px rgba(0,255,228,0.5);
+    opacity: 0.1;
   }
 
   .square {
@@ -23,7 +37,15 @@
     font-size: calc(var(--size) * 0.8);
     user-select: none;      
   }
-
+  
+  input {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 2px solid #00ffe4;
+    background: #757575;
+    color: #00ffe4;
+    outline: none;
+  }
   .dfatherbody {
     --n: var(--n);  
     --size:50px;
@@ -42,7 +64,7 @@
   }
 
   .light { background:#ffffff; }
-  .dark  { background:#757575; color:#803c3c; }
+  .dark  { background:#757575; color:#009788; }
   .controls { 
     display:flex;
     justify-content: center;
@@ -65,12 +87,13 @@
 </head>
 <body>
     <div class="controls">
-      <label>Board size (N):
-        <input id="n" type="number" value="4" min="1" />
-      </label>
+      <label> تعداد وزرا: </label>
+      <br>
+      <input id="n" type="number" value="4" min="1" />
+      
     </div>
     <div class="ddd">
-      <button id="build">Build</button>
+      <button id="build">بساز</button>
     </div>
   <div class="Akls">
     <div id ="dfatherbody" class="dfatherbody">
@@ -85,12 +108,9 @@
   const buildBtn= document.getElementById('build');
   const dfatherbody = document.getElementById('dfatherbody')
 function buildBoard(n) {
-    // محاسبه اندازه خانه‌ها بر اساس اندازه پنجره
-    let maxWidth = window.innerWidth * 0.8;   // 80٪ از عرض صفحه
-    let maxHeight = window.innerHeight * 0.8; // 80٪ از ارتفاع صفحه
+    let maxWidth = window.innerWidth * 0.8;   
+    let maxHeight = window.innerHeight * 0.8; 
     let cellSize = Math.floor(Math.min(maxWidth / n, maxHeight / n));
-
-    // اعمال به CSS
     boardEl.style.setProperty('--n', n);
     boardEl.style.setProperty('--size', `${cellSize}px`);
     dfatherbody.style.setProperty('--n', n);
@@ -107,6 +127,7 @@ function buildBoard(n) {
     }
 }
   buildBtn.addEventListener('click', () => {
+    boardEl.style.setProperty('opacity', 0.8);
     const n = Number(nInput.value);
     buildBoard(n);
     SendToBackend(n)
@@ -128,8 +149,8 @@ async function SendToBackend(nqueenNumber){
                     const cell = document.getElementById(cellId);
                     cell.innerHTML = list[x][t];
                     if (list[x][t] === "♛" || list[x][t] === "Q") {
-                        cell.style.backgroundColor = "lightgreen";
-                        cell.style.color = "red";
+                        cell.style.backgroundColor = '#009788';
+                        cell.style.color = `#00ffe4`;
                         cell.style.fontWeight = "bold";
                     }
                 }
